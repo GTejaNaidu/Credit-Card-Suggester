@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home | Portal</title>
+    <link rel="stylesheet" href="homepage.css" />
+  </head>
+
+  <body>
+    <nav class="navbar">
+      <div class="logo">Card&co</div>
+      <ul class="nav-links">
+        <li><a href="homepage.html">Home </a></li>
+        <li><a href="apply.html">Apply cards </a></li>
+        <li><a href="">New cards </a></li>
+        <li><a href="searc.html">Search Cards </a></li>
+        <li><a href="login.html">logout </a></li>
+      </ul>
+    </nav>
+    <br />
+    <center>
+      
+
+        <!-- 🟢 Moved results div here so cards appear below search bar -->
+        <div id="result" style="margin-top: 20px; width: 100%"></div>
+      </div>
+    </center>
+
+    <script>
+      function searchCard() {
+        const name = document.getElementById("searchInput").value;
+
+        fetch(`http://localhost:5000/api/cards?search=${name}`)
+          .then((res) => res.json())
+          .then((data) => {
+            const resultDiv = document.getElementById("result");
+            resultDiv.innerHTML = "";
+
+            if (data.length === 0) {
+              resultDiv.innerHTML = "<p>No card found.</p>";
+              return;
+            }
+
+            data.forEach((card) => {
+              const cardHTML = `
+              <div class="card">
+                <h3>${card.cardname}</h3>
+                <p><strong>Bank:</strong> ${card.bank}</p>
+                <p><strong>Categories:</strong> ${card.categories.join(", ")}</p>
+                <p><strong>Benefits:</strong> ${card.benefits}</p>
+                <p><strong>Annual Fee:</strong> ${card.annualfee}</p>
+                <p><strong>Eligibility:</strong> ${card.eligibility}</p>
+              </div>`;
+              resultDiv.innerHTML += cardHTML;
+            });
+          })
+          .catch((err) => {
+            console.error(err);
+            document.getElementById("result").innerHTML =
+              "Error fetching card";
+          });
+      }
+    </script>
+    <script>
+      async function getRandomBanksAndBenefits() {
+        try {
+          const res = await fetch("http://localhost:5000/api/cards");
+          const allCards = await res.json();
+    
+          if (!Array.isArray(allCards)) throw new Error("Invalid response format");
+    
+          // Shuffle the array and take 4
+          const shuffled = allCards.sort(() => 0.5 - Math.random());
+          const randomCards = shuffled.slice(0, 4);
+    
+          // Fill each content block
+          const contentClasses = [".content-a", ".content-b", ".content-c", ".content-d"];
+    
+          randomCards.forEach((card, index) => {
+            if (contentClasses[index]) {
+              document.querySelector(contentClasses[index]).innerHTML = `
+              <p class="card-bank"><strong>Bank:</strong> ${card.bank}</p>
+              <p class="card-benefits"><strong>Benefits:</strong> ${card.benefits}</p>
+              `;
+
+            }
+          });
+        } catch (err) {
+          console.error("Error fetching random cards:", err);
+        }
+      }
+    
+      // Run the function when the page loads
+      window.onload = function () {
+        getRandomBanksAndBenefits();
+      };
+    </script>
+    
+   
+    
+
+    <div class="svg-wrapper">
+      <img
+        src="C:\Users\tarun\OneDrive\Desktop\credit-card-helper\public\Credit Cards (Community).svg"
+        alt="Centered SVG "
+      />
+    </div>
+
+    <!-- From Uiverse.io by vamsidevendrakumar --> 
+<div class="card">
+  <div class="card-inner">
+    <div class="card-front">
+      <p></p>
+    </div>
+    <div class="card-back">
+      <p></p>
+    </div>
+  </div>
+</div>
+
+
+    <!-- From Uiverse.io by github-bishwajeet -->
+    <!-- <div class="card">
+      <label class="avatar" ></label>
+      <label class="info"  >
+        <span class="info-1">Jhon</span>
+        <span class="info-2">07/26</span>
+      </label>
+      <div class="content-1">4000 1234 5678 9016</div>
+      <div class="content-2"></div>
+    </div> -->
+
+    <!-- From Uiverse.io by Sharkotech -->
+    <div class="card2">
+      
+      <label class="info1"></label>
+      <div class="content-a" ></div>
+      <div class="content-b"></div>
+      <div class="content-c"></div>
+      <div class="content-d"></div>
+    </div>
+
+    <!-- From Uiverse.io by Smit-Prajapati -->
+    <div class="main">
+      <div class="card1" id="c1"></div>
+      <div class="card1" id="c2"></div>
+      <div class="card1" id="c3"></div>
+      <div class="card1" id="c4"></div>
+    </div>
+
+    <main class="home-content"></main>
+    <br>
+    <br>
+    
+  </body>
+</html>

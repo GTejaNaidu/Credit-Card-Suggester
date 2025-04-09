@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Signup Portal</title>
+  <link rel="stylesheet" href="signup-style.css" />
+</head>
+<body>
+  <div class="form-box">
+    <form class="form" action="/welcome" method="POST">
+      <span class="title">Sign Up</span>
+      <span class="subtitle">Create a free account with your email.</span>
+      <div class="form-container">
+        <input type="text" name="fullname" class="input" placeholder="Full Name" required />
+        <input type="email" name="email" class="input" placeholder="Email" required />
+        <input type="password" name="password" class="input" placeholder="Password" required minlength="6" />
+      </div>
+      <button type="submit">Sign Up</button>
+    </form>
+    <div class="form-section">
+      <p>Already have an account? <a href="/login.html">Log in</a></p>
+    </div>
+  </div>
+</body>
+</html>

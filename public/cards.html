@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Card Search</title>
+  <style>
+    body { font-family: Arial; padding: 20px; background: #f4f4f4; }
+    .card {
+      background: white; padding: 15px; margin-top: 10px;
+      border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    input { padding: 10px; width: 80%; font-size: 16px; }
+    button { padding: 10px; font-size: 16px; }
+  </style>
+</head>
+<body>
+
+<h2>Search Credit Card</h2>
+<input type="text" id="searchInput" placeholder="Type card name">
+<button onclick="searchCard()">Search</button>
+
+<div id="result"></div>
+
+<script>
+  function searchCard() {
+    const name = document.getElementById('searchInput').value;
+
+    fetch(`http://localhost:5000/api/cards?search=${name}`)
+      .then(res => res.json())
+      .then(data => {
+        const resultDiv = document.getElementById('result');
+        resultDiv.innerHTML = '';
+
+        if (data.length === 0) {
+          resultDiv.innerHTML = '<p>No card found.</p>';
+          return;
+        }
+
+        data.forEach(card => {
+          const cardHTML = `
+            <div class="card">
+              <h3>${card.cardname}</h3>
+              <p><strong>Bank:</strong> ${card.bank}</p>
+              <p><strong>Categories:</strong> ${card.categories.join(', ')}</p>
+              <p><strong>Benefits:</strong> ${card.benefits}</p>
+              <p><strong>Annual Fee:</strong> ${card.annualfee}</p>
+              <p><strong>Eligibility:</strong> ${card.eligibility}</p>
+            </div>`;
+          resultDiv.innerHTML += cardHTML;
+        });
+      })
+      .catch(err => {
+        console.error(err);
+        document.getElementById('result').innerHTML = 'Error fetching card';
+      });
+  }
+</script>
+
+</body>
+</html>
